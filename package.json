@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "dev": "ts-node test"
+  },
+  "dependencies": {
+    "puppeteer": "^13.7.0",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  }
+}
