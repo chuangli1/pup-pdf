@@ -2,7 +2,7 @@ import pp, {pup,pdf,file as fileP} from './index'
 import { Page } from "puppeteer";
 import sites from './name'
 import * as path from 'path'
-const callback = async (page:Page,browser:any)=>{
+const callback = async (page:Page)=>{
     const content:any = await  page.$$eval('#contents-detail>dl',(el:any)=>el.map((el:any)=>el.innerText));
     const fileString:string[] = [];
     let index = 0;
@@ -20,21 +20,27 @@ const callback = async (page:Page,browser:any)=>{
 `export default [
         ${fileString.join(',')}
 ]`
+    
     fileP.writeFile('./name.ts',s);
-    let name = 1
-    for (let s of sites){
-        console.log(s[0])
-       for (let site of s){
-            const pathR = `./pdf/${name}+`
-            fileP.createDir(path.resolve(__dirname,pathR))
-            await pdf.exportPdf(site.url,`${pathR}/${site.title}.pdf`);
-       }
-       name++;
-    }
+    const pdfContent:any = await page.$eval('body',el=>el.innerHTML)
+    await pdf.exportPdfContent(pdfContent,'./pdf/test.pdf')
+    // let name = 1
+    // for (let s of sites){
+    //     console.log(s[0])
+    //    for (let site of s){
+    //         const pathR = `./pdf/${name}+`
+    //         fileP.createDir(path.resolve(__dirname,pathR))
+    //         await pdf.exportPdfUrl(site.url,`${pathR}/${site.title}.pdf`);
+    //    }
+    //    name++;
+    // }
+}
+const callback1 = async (page:Page)=>{
+    await pdf.exportPdfSelector('https://www.baidu.com','p','./test.pdf')
 }
 const index = async ()=>{
     await pp.init()
-    await pup.openSite('http://data.biancheng.net/', callback);
+    await pup.openSite('http://data.biancheng.net/', callback1);
 }
 index().then(()=>{
     pup.closeBrowser()

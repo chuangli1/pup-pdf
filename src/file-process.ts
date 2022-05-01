@@ -8,9 +8,6 @@ const fs = require('fs');
 export const writeFile = (path:string,content:string)=>{
     fs.writeFileSync(path,content);
 }
-export const readFile = (path:string)=>{
-
-}
 /**
  * 同步创建目录
  * @param path 
@@ -63,10 +60,4 @@ export const stringObject = (s:string[],option:OptionStringObject):string=>{
 [
     ${content.join(',')}
 ]`;
-}
-export default {
-    writeFile,
-    readFile,
-    stringObject,
-    createDir
 }
